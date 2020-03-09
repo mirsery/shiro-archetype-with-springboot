@@ -8,11 +8,19 @@
         <version>2.2.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.hytiot.shiro</groupId>
+    <groupId>com.hytiot.example.shiro</groupId>
     <artifactId>shiro-archetype-with-springboot</artifactId>
     <version>1.0.0</version>
     <name>shiro-archetype-with-springboot</name>
     <description>shiro-archetype-with-springboot</description>
+    <url>http://gitlab.hytiot.com/mirsery/shiro-springboot</url>
+    <developers>
+        <developer>
+            <name>mirseyr</name>
+            <organization>hyt-iot</organization>
+            <email>mirsery@hytiot.com</email>
+        </developer>
+    </developers>
 
     <properties>
 

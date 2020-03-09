@@ -26,5 +26,5 @@ spring:
         max-active: 100
 mybatis:
   mapper-locations: mapper/**/*Mapper.xml
-  typeAliasesPackage: com.hytiot.shiro.entity
+  typeAliasesPackage: com.hytiot.example.shiro.entity
 
