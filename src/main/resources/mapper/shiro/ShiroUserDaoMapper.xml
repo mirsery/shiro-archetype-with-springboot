@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hytiot.shiro.dao.ShiroUserDao">
+
+    <sql id="role-tb">shiro_roles</sql>
+    <sql id="user-tb">shiro_users</sql>
+    <sql id="permission-tb">shiro_permissions</sql>
+    <sql id="user-role-tb">shiro_user_role_relation</sql>
+    <sql id="role-permission-tb">shiro_role_permission_relation</sql>
+
+    <resultMap id="shiro-permission" type="com.hytiot.shiro.entity.Permission">
+        <result property="permission" column="permission_no" jdbcType="VARCHAR"/>
+        <result property="permissionName" column="permission_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="shiro-role" type="com.hytiot.shiro.entity.Role">
+        <result property="roleNo" column="role_no" jdbcType="VARCHAR"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <association property="permissions" resultMap="shiro-permission">
+        </association>
+    </resultMap>
+
+    <resultMap id="shiro-user" type="com.hytiot.shiro.entity.User">
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="userNo" column="user_no" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <association property="roles" resultMap="shiro-role">
+        </association>
+    </resultMap>
+
+
+    <select id="getUser" resultMap="shiro-user" parameterType="String">
+        SELECT u.user_no as user_no,u.password as password,u.username as username,r.role_no as role_no,r.role_name as
+        role_name,p.permission_no as permission_no,p.permission_name as permission_name
+        FROM
+        <include refid="user-tb"/>
+        u
+        LEFT JOIN
+        <include refid="user-role-tb"/>
+        ur ON u.user_no = ur.user_no
+        LEFT JOIN
+        <include refid="role-tb"/>
+        r ON ur.role_no = r.role_no
+        LEFT JOIN
+        <include refid="role-permission-tb"/>
+        rp ON r.role_no = rp.role_no
+        LEFT JOIN
+        <include refid="permission-tb"/>
+        p ON rp.permission_no = p.permission_no
+        <where>
+            u.username = #{username}
+        </where>
+    </select>
+</mapper>
