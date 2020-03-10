@@ -6,6 +6,7 @@ import com.hytiot.example.shiro.session.manager.RedisSessionDao;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import javax.servlet.Filter;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -38,6 +39,11 @@ public class ShiroConfig {
         return defaultAAP;
     }
 
+    @Bean
+    public Realm getHytDefaultRealm(){
+        return new HytDefaultRealm();
+    }
+
     /**
      * security-manager
      *
@@ -46,7 +52,7 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(new HytDefaultRealm());
+        securityManager.setRealm(getHytDefaultRealm());
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
@@ -59,7 +65,7 @@ public class ShiroConfig {
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
         filtersMap.put("requestURL", getURLPathMatchingFilter());
         filterChainDefinition.put("/login", "anon");
-        filterChainDefinition.put("/**", "authc");
+//        filterChainDefinition.put("/**", "authc");
         filterChainDefinition.put("/**", "requestURL");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinition);
         shiroFilterFactoryBean.setFilters(filtersMap);

@@ -35,8 +35,6 @@ public class ShiroTestLoginController {
             return tokenId.toString();
         } catch (AuthenticationException e) {
             return "账号或密码错误！";
-        } catch (AuthorizationException e) {
-            return "没有权限";
         }
     }
 
