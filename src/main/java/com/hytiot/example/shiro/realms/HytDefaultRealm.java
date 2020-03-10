@@ -4,7 +4,7 @@ package com.hytiot.example.shiro.realms;
 import com.hytiot.example.shiro.entity.Permission;
 import com.hytiot.example.shiro.entity.Role;
 import com.hytiot.example.shiro.entity.User;
-import com.hytiot.example.shiro.service.ShiroLoginService;
+import com.hytiot.example.shiro.service.ShiroControlService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -25,7 +25,7 @@ public class HytDefaultRealm extends AuthorizingRealm {
 
 
     @Autowired
-    private ShiroLoginService loginService;
+    private ShiroControlService loginService;
 
     /**
      * Retrieves the AuthorizationInfo for the given principals from the underlying data store.  When returning an

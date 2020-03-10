@@ -6,7 +6,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,7 +41,6 @@ public class ShiroTestLoginController {
     }
 
     @PostMapping("/index")
-    @RequiresPermissions("/index")
     public String index() {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
@@ -50,7 +48,6 @@ public class ShiroTestLoginController {
     }
 
     @PostMapping("/check")
-    @RequiresPermissions("/check")
     public String check() {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();

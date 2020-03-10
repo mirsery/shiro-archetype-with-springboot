@@ -3,10 +3,13 @@ package com.hytiot.example.shiro.conf;
 import com.hytiot.example.shiro.realms.HytDefaultRealm;
 import com.hytiot.example.shiro.session.dao.ShiroHytSession;
 import com.hytiot.example.shiro.session.manager.RedisSessionDao;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.servlet.Filter;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
-import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
-import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -35,16 +38,6 @@ public class ShiroConfig {
         return defaultAAP;
     }
 
-
-    /**
-     * custom's realm
-     **/
-    @Bean
-    public HytDefaultRealm defaultRealm() {
-        HytDefaultRealm defaultRealm = new HytDefaultRealm();
-        return defaultRealm;
-    }
-
     /**
      * security-manager
      *
@@ -53,21 +46,31 @@ public class ShiroConfig {
     @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(defaultRealm());
+        securityManager.setRealm(new HytDefaultRealm());
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
     @Bean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-        DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
-
-        chain.addPathDefinition("/login", "anon");
-
-        //除了以上的请求外，其它请求都需要登录
-        chain.addPathDefinition("/**", "authc");
-        return chain;
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map<String, String> filterChainDefinition = new LinkedHashMap<>();
+        Map<String, Filter> filtersMap = new LinkedHashMap<>();
+        filtersMap.put("requestURL", getURLPathMatchingFilter());
+        filterChainDefinition.put("/login", "anon");
+        filterChainDefinition.put("/**", "authc");
+        filterChainDefinition.put("/**", "requestURL");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinition);
+        shiroFilterFactoryBean.setFilters(filtersMap);
+        return shiroFilterFactoryBean;
     }
+
+    @Bean
+    public URLPathMatchingFilter getURLPathMatchingFilter() {
+        return new URLPathMatchingFilter();
+    }
+
 
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
@@ -76,7 +79,6 @@ public class ShiroConfig {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-
 
     @Bean
     public SessionManager sessionManager() {
