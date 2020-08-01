@@ -52,5 +52,12 @@ public class ShiroTestLoginController {
         return session.getId().toString();
     }
 
+    @PostMapping("/community/test")
+    public String community() {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        return session.getId().toString();
+    }
+
 
 }

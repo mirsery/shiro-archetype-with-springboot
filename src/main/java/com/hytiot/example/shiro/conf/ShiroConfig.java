@@ -1,5 +1,7 @@
 package com.hytiot.example.shiro.conf;
 
+import com.hytiot.example.shiro.filters.ResourceFilter;
+import com.hytiot.example.shiro.filters.URLPathMatchingFilter;
 import com.hytiot.example.shiro.realms.HytDefaultRealm;
 import com.hytiot.example.shiro.session.dao.ShiroHytSession;
 import com.hytiot.example.shiro.session.manager.RedisSessionDao;
@@ -10,7 +12,6 @@ import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
@@ -40,7 +41,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public Realm getHytDefaultRealm(){
+    public Realm getHytDefaultRealm() {
         return new HytDefaultRealm();
     }
 
@@ -63,18 +64,15 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         Map<String, String> filterChainDefinition = new LinkedHashMap<>();
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
-        filtersMap.put("requestURL", getURLPathMatchingFilter());
+        filtersMap.put("requestURL", new URLPathMatchingFilter());
+        filtersMap.put("resource", new ResourceFilter());
         filterChainDefinition.put("/login", "anon");
 //        filterChainDefinition.put("/**", "authc");
         filterChainDefinition.put("/**", "requestURL");
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinition);
         shiroFilterFactoryBean.setFilters(filtersMap);
         return shiroFilterFactoryBean;
-    }
-
-    @Bean
-    public URLPathMatchingFilter getURLPathMatchingFilter() {
-        return new URLPathMatchingFilter();
     }
 
 

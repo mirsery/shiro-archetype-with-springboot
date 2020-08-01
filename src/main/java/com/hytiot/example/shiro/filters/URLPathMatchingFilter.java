@@ -1,4 +1,4 @@
-package com.hytiot.example.shiro.conf;
+package com.hytiot.example.shiro.filters;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -32,13 +32,7 @@ public class URLPathMatchingFilter extends PathMatchingFilter {
             throws Exception {
 
         String requestURL = getPathWithinApplication(request);
-
-        /**
-         *  排除登录方法URL
-         * **/
-        if ("/login".equals(requestURL)) {
-            return true;
-        }
+        System.out.println("requestURL: "+requestURL);
 
         Subject subject = SecurityUtils.getSubject();
         if (!subject.isAuthenticated()) {
