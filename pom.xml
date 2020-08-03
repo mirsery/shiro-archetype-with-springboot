@@ -8,9 +8,9 @@
         <version>2.2.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.hytiot.example.shiro</groupId>
+    <groupId>com.hytiot.example</groupId>
     <artifactId>shiro-archetype-with-springboot</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>shiro-archetype-with-springboot</name>
     <description>shiro-archetype-with-springboot</description>
     <url>http://gitlab.hytiot.com/mirsery/shiro-springboot</url>
