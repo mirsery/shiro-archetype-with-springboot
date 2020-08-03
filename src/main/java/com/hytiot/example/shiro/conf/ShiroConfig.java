@@ -67,6 +67,8 @@ public class ShiroConfig {
         filtersMap.put("requestURL", new URLPathMatchingFilter());
         filtersMap.put("resource", new ResourceFilter());
         filterChainDefinition.put("/login", "anon");
+        filterChainDefinition.put("/dataTable/test/*","anon");
+
 //        filterChainDefinition.put("/**", "authc");
         filterChainDefinition.put("/**", "requestURL");
 

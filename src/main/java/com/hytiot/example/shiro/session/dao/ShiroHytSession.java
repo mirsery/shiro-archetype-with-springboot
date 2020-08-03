@@ -27,6 +27,9 @@ public class ShiroHytSession extends DefaultWebSessionManager {
     @Override
     public Serializable getSessionId(ServletRequest request, ServletResponse response) {
         String sessionId = WebUtils.toHttp(request).getHeader(AUTH_TOKEN);
+        if(sessionId == null || "".equals(sessionId.trim())){
+            sessionId = request.getParameter(AUTH_TOKEN);
+        }
         if (StringUtils.isEmpty(sessionId)) {
             return super.getSessionId(request, response);
         } else {

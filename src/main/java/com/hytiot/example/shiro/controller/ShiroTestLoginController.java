@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,43 +20,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ShiroTestLoginController {
 
-    @PostMapping("/login")
-    public String login(@ModelAttribute UserVo user) {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                user.getUsername(),
-                user.getPassword()
-        );
-        try {
-            //进行验证，这里可以捕获异常，然后返回对应信息
-            subject.login(usernamePasswordToken);
-            Serializable tokenId = subject.getSession().getId();
-            return tokenId.toString();
-        } catch (AuthenticationException e) {
-            return "账号或密码错误！";
-        }
-    }
-
-    @PostMapping("/index")
-    public String index() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        return session.getId().toString();
-    }
-
-    @PostMapping("/check")
-    public String check() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        return session.getId().toString();
-    }
-
-    @PostMapping("/community/test")
-    public String community() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        return session.getId().toString();
-    }
-
-
+//    @PostMapping("/login")
+//    public String login(@ModelAttribute UserVo user) {
+//        Subject subject = SecurityUtils.getSubject();
+//        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
+//                user.getUsername(),
+//                user.getPassword()
+//        );
+//        try {
+//            //进行验证，这里可以捕获异常，然后返回对应信息
+//            subject.login(usernamePasswordToken);
+//            Serializable tokenId = subject.getSession().getId();
+//            return tokenId.toString();
+//        } catch (AuthenticationException e) {
+//            return "账号或密码错误！";
+//        }
+//    }
+//
+//    @PostMapping("/index")
+//    public String index() {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        return session.getId().toString();
+//    }
+//
+//    @PostMapping("/check")
+//    public String check() {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        return session.getId().toString();
+//    }
+//
+//    @PostMapping("/community/test")
+//    public String community() {
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        return session.getId().toString();
+//    }
 }

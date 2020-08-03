@@ -24,6 +24,15 @@ spring:
         max-idle: 10
         min-idle: 5
         max-active: 100
+  thymeleaf:
+    prefix: classpath:/templates/ # 不加，使用默认配置也行
+    suffix: .html # 不加，使用默认配置也行
+    encoding: UTF-8
+    cache: false # 开发环境关闭缓存
+    mode: LEGACYHTML5 # 执行thymeleaf非严格html模式
+    servlet:
+      content-type: text/html
+
 mybatis:
   mapper-locations: mapper/**/*Mapper.xml
   typeAliasesPackage: com.hytiot.example.shiro.entity

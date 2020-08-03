@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="generator" content="HTML Tidy for HTML5 for Apple macOS version 5.6.0">
+    <meta charset="UTF-8">
+    <title>test-datatables</title>
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" charset="utf8" src=
+            "http://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+</head>
+<body>
+<table id="table-example" class="table table-strIPed table-bordered">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>用户编号</th>
+        <th>姓名</th>
+        <th>用户密码</th>
+        <th>创建时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+
+</table>
+<script>
+    var table = $('#table-example').DataTable({
+        "serverSide": true,
+        "processing": true,
+        "order":[
+            [4,'desc']
+        ],
+        dataType: "json",
+        "ajax": {
+            url: "/dataTable/test/list",
+            type: "post",
+            // data: {
+            //    "authToken":"shshshhs"
+            // },
+            error:function(){
+
+                // toastr.error("载入失败",'',{timeOut: '2000', positionClass: 'toast-top-center' });
+            }
+        },
+        columns: [{
+            "name":"id",
+            "data": "id"
+        }, {
+            "name": "user_no",
+            "data": "user_no"
+        }, {
+            "name": "username",
+            "data": "username"
+
+        },{
+            "name": "password",
+            "data": "password"
+        }, {
+            "name": "create_time",
+            "data": "create_time"
+        },{
+            "name": null,
+            "data": null
+        }],
+        columnDefs: [{
+            "targets": [0,5],
+            "visible": false,
+            "searchable":false,
+        }, {
+            "targets": 3,
+            "searchable":false,
+            "visible":true
+        },{
+            "targets": 4,
+            "searchable":false
+        }, {
+            "targets": 5,
+            "searchable":false,
+        }],
+        "dom": "<'row'<'col-xs-2'l><'#mytool.col-xs-4'><'col-xs-6'f>r>" +
+            "t" +
+            "<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        initComplete: function() {
+            // toastr.success("载入成功",'',{timeOut: '1800', positionClass: 'toast-top-center' });
+        }
+    });
+</script>
+</body>
+</html>
