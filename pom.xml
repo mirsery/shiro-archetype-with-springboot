@@ -38,7 +38,7 @@
         <jedis.version>2.9.0</jedis.version>
 
         <druid.version>1.0.28</druid.version>
-        <mybatis.version>3.4.4</mybatis.version>
+        <mybatis.version>3.5.6</mybatis.version>
         <mybatis-spring.version>1.1.1</mybatis-spring.version>
     </properties>
 
